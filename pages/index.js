@@ -1,5 +1,5 @@
 import LayoutPage from "../components/layout/LayoutPage";
-import AppOptions from "../components/options/AppOptions";
+import AppOptions from "../components/Options/AppOptions";
 
 
 export default function Home() {
