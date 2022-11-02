@@ -40,18 +40,18 @@ const CrearForm = () => {
         name='crear_diagnostico'
         autoComplete="off">
         <Form.Item
-          label="Título"
-          name="title"
+          label="Asunto"
+          name="subject"
           labelCol={{
             span: 24
           }}
           wrapperCol={{
             span: 24
           }}
-          tooltip='Título del análisis, p.ej. "Tomografía Cervical"'
+          tooltip='Asunto del análisis, p.ej. "Tomografía Cervical Semanal"'
           rules={[{
             required: true,
-            message: "Porfavor incluye el Título."
+            message: "Porfavor incluye el Asunto."
           }]}>
           <Input />
         </Form.Item>
