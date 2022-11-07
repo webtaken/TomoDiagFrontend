@@ -20,7 +20,7 @@ const DetailDiagnostico = () => {
   const tabList = generateArrTabs(5).map(num => {
     return {
       key: `image${num}`,
-      tab: `image${num}`
+      tab: `Imagen ${num}`
     };
   })
   const contentList = {};
@@ -50,7 +50,7 @@ const DetailDiagnostico = () => {
         sm: 16,
         md: 24,
         lg: 32,
-      }} justify="center" align="middle">
+      }} justify="center" type="flex">
         <Col className="gutter-row"
           xs={24} sm={24} md={12}>
           <Card

@@ -48,7 +48,7 @@ const CrearForm = () => {
           wrapperCol={{
             span: 24
           }}
-          tooltip='Asunto del análisis, p.ej. "Tomografía Cervical Semanal"'
+          tooltip='Asunto del análisis'
           rules={[{
             required: true,
             message: "Porfavor incluye el Asunto."

@@ -1,6 +1,7 @@
 import { Card, Row, Col, Divider } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import LayoutPage from "../../components/layout/LayoutPage";
+import Link from 'next/link';
 
 const { Meta } = Card;
 
@@ -20,7 +21,7 @@ const Diagnosticos = () => {
           />
         }
         actions={[
-          <p><EditOutlined key="edit" /> Ver</p>,
+          <Link href={`/diagnosticos/detalle/${index}`}><EditOutlined key="edit" /> Ver</Link>,
         ]}
       >
         <Meta
