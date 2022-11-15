@@ -1,44 +1,85 @@
+import UploadsConfig from '../../config/uploads';
 import { MedicineBoxOutlined } from '@ant-design/icons';
+import axios from 'axios';
 import { Form, Input, Typography, Select, message, Upload, Button } from 'antd';
+import { useState } from 'react';
 const { Option } = Select;
 const { Dragger } = Upload;
 const { Title } = Typography;
 
-const props = {
-  name: 'file',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info) {
-    console.log("info: ", info);
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} se cargó correctamente.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} falló en cargarse.`);
-    }
-  },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
-};
+
 
 const onChange = (value) => {
   console.log(`selected ${value}`);
 };
+
 const onSearch = (value) => {
   console.log('search:', value);
 };
 
 const CrearForm = () => {
+  const diagnosticoForm = Form.useForm();
+  const [imagesUrls, setImagesUrls] = useState([]);
+
+  const uploadProperties = {
+    name: 'file',
+    multiple: true,
+    action: UploadsConfig.url,
+    customRequest: function (options) {
+      const { onSuccess, onError, file, onProgress } = options;
+  
+      const fmData = new FormData();
+      
+      fmData.append("tomografia", file);
+  
+      const config = {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: event => {
+          onProgress({ percent: (event.loaded / event.total) * 100 });
+        }
+      };
+  
+      axios.post(
+        UploadsConfig.url,
+        fmData,
+        config
+      )
+      .then((res) => {
+        onSuccess("Ok");
+        console.log(`Response:\n ${JSON.stringify(res.data)}`);
+
+        setImagesUrls(prevImagesUrls => {
+          return prevImagesUrls.concat(res.data.url);
+        });
+      }).catch((err) => {
+        console.log("Error: ", err);
+        onError({ err });
+      });
+    },
+    onChange(info) {
+      const { status } = info.file;
+      
+      if (status === 'done') {
+        message.success(`${info.file.name} se cargó correctamente.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} falló en cargarse.`);
+      }
+    }
+  };
+
+  const submitFormHandler = (event) => {
+    event.preventDefault();
+    
+  };
+
+
   return (
     <>
       <Title level={2}>Realizar Diagnóstico</Title>
       <Form
         name='crear_diagnostico'
-        autoComplete="off">
+        autoComplete="off"
+        onFinish={submitFormHandler}>
         <Form.Item
           label="Asunto"
           name="subject"
@@ -99,7 +140,7 @@ const CrearForm = () => {
               message: 'Porfavor incluye al menos una tomografía.',
             },
           ]}>
-          <Dragger {...props}>
+          <Dragger {...uploadProperties}>
             <p className="ant-upload-drag-icon">
               <MedicineBoxOutlined />
             </p>
