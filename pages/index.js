@@ -21,7 +21,7 @@ export default function Home() {
                 calificados en todas las especialidades de la medicina y
                 apoyados en los más sofisticados equipos médicos para el
                 diagnóstico y tratamiento. Así mismo, contamos con un nuevo
-                servicio el cual es <b>"TomoDiag"</b>, que es una aplicación que
+                servicio el cual es <b>&quotTomoDiag&quot</b>, que es una aplicación que
                 diagnostica imágenes de tomografías para detectar anomalías o
                 irregularidades que puedan existir en ella. Para ello, usted
                 solo debe afiliarse al programa de San Pablo Salud que más se

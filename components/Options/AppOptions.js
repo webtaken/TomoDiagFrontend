@@ -5,10 +5,10 @@ const { Meta } = Card;
 const AppOptions = () => {
   const router = useRouter();
   const diagnosticosOptHandler = () => {
-    router.push('/diagnosticos')
+    router.push('/diagnosticos');
   }
   const nuevoDiagnosticoOptHandler = () => {
-    router.push('/diagnosticos/crear')
+    router.push('/diagnosticos/crear');
   }
   return (
     <>
