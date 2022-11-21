@@ -5,7 +5,7 @@ import AuthContext from "../stores/authContext";
 import { useContext } from "react";
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
+  const { user, authReady } = useContext(AuthContext);
   return (
     <>
       <LayoutPage>
@@ -30,7 +30,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          {user && <AppOptions />}
+          {(authReady && user) && <AppOptions />}
         </div>
       </LayoutPage>
     </>

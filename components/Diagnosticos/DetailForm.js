@@ -17,23 +17,13 @@ import BackendConfig from "../../config/backend";
 const { Title } = Typography;
 const { Option } = Select;
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
-
-const onSearch = (value) => {
-  console.log("search:", value);
-};
-
 const DetailForm = (props) => {
   const router = useRouter();
   const deleteDiagnosticoHandler = () => {
-    console.log("Deleting", props.idDiagnostico);
-    axios.delete(
-      `${BackendConfig.diagnosesEndpoint}/${props.idDiagnostico}`
-    ).then((res) => {
+    let url=`${process.env.NEXT_PUBLIC_DIAGNOSE_ENDPOINT}/${props.idDiagnostico}`;
+    axios.delete(url)
+    .then((res) => {
       message.success(`El diagnóstico se eliminó con éxito ✅`);
-      console.log(`Response:\n ${JSON.stringify(res.data)}`);
       router.push("/diagnosticos");
     }).catch((err) => {
       message.error(`Ocurrió un error inténtelo más tarde: ${err}`);
@@ -53,13 +43,13 @@ const DetailForm = (props) => {
       headers: { "Content-Type": "application/json" }
     };
 
+    let url=`${process.env.NEXT_PUBLIC_DIAGNOSE_ENDPOINT}/${props.idDiagnostico}`;
     axios.put(
-      `${BackendConfig.diagnosesEndpoint}/${props.idDiagnostico}`,
+      url,
       body,
       config
     ).then((res) => {
       message.success(`El diagnóstico se actualizó correctamente ✅`);
-      console.log(`Response:\n ${JSON.stringify(res.data)}`);
     }).catch((err) => {
       message.error(`Ocurrió un error inténtelo más tarde: ${err}`);
     });
@@ -94,8 +84,6 @@ const DetailForm = (props) => {
             <Select
               showSearch
               optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
               value={props.typeAnalysis}
               filterOption={(input, option) =>
                 option.children.toLowerCase().includes(input.toLowerCase())
