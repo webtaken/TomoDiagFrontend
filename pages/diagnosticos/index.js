@@ -52,7 +52,7 @@ const Diagnosticos = () => {
             }}
             cover={<img alt="cover diagnóstico" src={`${diagnostico.cover}`} />}
             actions={[
-              <Link href={`/diagnosticos/${diagnostico._id}`}>
+              <Link key="diagnostico_link" href={`/diagnosticos/${diagnostico._id}`}>
                 <EditOutlined key="edit" /> Ver
               </Link>,
             ]}

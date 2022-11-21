@@ -20,7 +20,7 @@ const AppOptions = () => {
             style={{ width: 200 }}
             cover={<img alt="diagnosticos" src='https://i.imgur.com/oK6HdMi.png' />}
             actions={[
-              <Button type="primary" onClick={diagnosticosOptHandler}>Ver</Button>
+              <Button key="ver_diagnostico" type="primary" onClick={diagnosticosOptHandler}>Ver</Button>
             ]}>
             <Meta
               title="Mis diagnósticos"
@@ -35,7 +35,7 @@ const AppOptions = () => {
             style={{ width: 200 }}
             cover={<img alt="nuevo disgnostico" src='https://i.imgur.com/tSRB9Fq.png' />}
             actions={[
-              <Button type="primary" onClick={nuevoDiagnosticoOptHandler}>Crear</Button>
+              <Button key="crear_diagnostico" type="primary" onClick={nuevoDiagnosticoOptHandler}>Crear</Button>
             ]}>
             <Meta
               title="Nuevo Diagnóstico"
