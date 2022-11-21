@@ -1,4 +1,4 @@
-import UploadsConfig from '../../config/uploads';
+import BackendConfig from '../../config/backend';
 import { MedicineBoxOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Form, Input, Typography, Select, message, Upload, Button } from 'antd';
@@ -18,13 +18,13 @@ const onSearch = (value) => {
 };
 
 const CrearForm = () => {
-  const diagnosticoForm = Form.useForm();
+  const [diagnosticoForm] = Form.useForm();
   const [imagesUrls, setImagesUrls] = useState([]);
 
   const uploadProperties = {
     name: 'file',
     multiple: true,
-    action: UploadsConfig.url,
+    action: BackendConfig.uploadImageEndpoint,
     customRequest: function (options) {
       const { onSuccess, onError, file, onProgress } = options;
   
@@ -40,11 +40,10 @@ const CrearForm = () => {
       };
   
       axios.post(
-        UploadsConfig.url,
+        `${BackendConfig.diagnosesEndpoint}/images/upload`,
         fmData,
         config
-      )
-      .then((res) => {
+      ).then((res) => {
         onSuccess("Ok");
         console.log(`Response:\n ${JSON.stringify(res.data)}`);
 
@@ -67,28 +66,50 @@ const CrearForm = () => {
     }
   };
 
-  const submitFormHandler = (event) => {
-    event.preventDefault();
+  const onFinishFormHandler = (valuesForm) => {
+    const { subject, description, type_analysis } = valuesForm;
     
-  };
+    const body = {
+      subject: subject,
+      description: description,
+      typeAnalysis: type_analysis,
+      imagesUrls: imagesUrls
+    };
 
+    const config = {
+      headers: { "Content-Type": "application/json" }
+    };
+    axios.post(
+      `${BackendConfig.diagnosesEndpoint}/`,
+      body,
+      config
+    ).then((res) => {
+      message.success(`Le enviaremos un email cuando el diagnóstico esté listo ✅`);
+      diagnosticoForm.resetFields();
+      setImagesUrls([]); // limpiamos todas las urls de las imágenes
+      console.log(`Response:\n ${JSON.stringify(res.data)}`);
+    }).catch((err) => {
+      message.error(`Ocurrió un error inténtelo más tarde: ${err}`);
+    });
+  };
 
   return (
     <>
       <Title level={2}>Realizar Diagnóstico</Title>
       <Form
         name='crear_diagnostico'
+        form={diagnosticoForm}
         autoComplete="off"
-        onFinish={submitFormHandler}>
+        labelCol={{
+          span: 24
+        }}
+        wrapperCol={{
+          span: 24
+        }}
+        onFinish={onFinishFormHandler}>
         <Form.Item
           label="Asunto"
           name="subject"
-          labelCol={{
-            span: 24
-          }}
-          wrapperCol={{
-            span: 24
-          }}
           tooltip='Asunto del análisis'
           rules={[{
             required: true,
@@ -98,12 +119,6 @@ const CrearForm = () => {
         </Form.Item>
         <Form.Item
           label="Tipo"
-          labelCol={{
-            span: 24
-          }}
-          wrapperCol={{
-            span: 24
-          }}
           name="type_analysis"
           tooltip='Tipo de la tomografía, p.ej. "Cervical"'
           rules={[
@@ -126,12 +141,6 @@ const CrearForm = () => {
         </Form.Item>
         <Form.Item
           label="Tomografías"
-          labelCol={{
-            span: 24
-          }}
-          wrapperCol={{
-            span: 24
-          }}
           name="tomografias"
           valuePropName='tomografias'
           rules={[
@@ -154,12 +163,6 @@ const CrearForm = () => {
           name="description"
           label="Descripción"
           tooltip="Descripción del análisis (máx 200 letras)"
-          labelCol={{
-            span: 24
-          }}
-          wrapperCol={{
-            span: 24
-          }}
           rules={[{
             required: true,
             message: 'Porfavor incluye una breve descripción.'

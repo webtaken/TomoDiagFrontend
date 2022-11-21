@@ -14,62 +14,58 @@ const HeaderPage = () => {
   //Solo si tengo user (login) muestro el boton login, si aun no hay registro no  muestro el botón logout
   //linea 16: Solo muestro esa info cuando la conexion entre netlify y user se haya realizado
 
-  const items_not_logged = [
+  let items = [
     {
-      label: (
-        <Button type="link">Logo</Button>
-      ),
+      label: "Logo",
       key: 'logo'
-    },
-    {
-      label: (
-        <Button type="link" onClick={login}>login</Button>
-      ),
-      key: 'login'
     }
   ];
-  const items_logged = [
-    {
-      label: (
-        <Button type="link">Logo</Button>
-      ),
-      key: 'logo'
-    },
-    {
-      label: (
-        <Button type="link" onClick={() => {
-          router.push('/diagnosticos')
-        }}>TomoDiag</Button>
-      ),
-      key: 'tomodiag'
-    },
-    {
-      label: (
-        <Button type="link" onClick={logout}>Salir</Button>
-      ),
-      key: 'logout'
+  
+  const menuItemClickedHandler = (object) => {
+    const { key } = object;
+    if (key === "login") {
+      login();
+      router.push("/");
+    } else  if (key === "logout") {
+      logout();
+      router.push("/");
+    } else if (key === "logo") {
+      router.push("/");
+    } else if (key === "tomodiag") {
+      router.push("/diagnosticos");
+    } else {
+      router.push("/");
     }
-  ];
+  };
 
-  // if(!user){
-  // // si el usuario no está logeado
-  //   items = [
-
-  // ];
-  // items = items.concat(some_labels);
-  // } else {
-  //   some_labels = [
-
-  //   ];
-  //   items = items.concat(some_labels);
-  // }
-  // console.log("items: ", items);
+  if (!user) {
+    // si el usuario no está logeado
+    items = items.concat([
+      {
+        label: "Ingresar/Registrarse",
+        key: 'login'
+      }
+    ]);
+  } else {
+    // si el usuario ya se logeo
+    items = items.concat([
+      {
+        label: "TomoDiag",
+        key: 'tomodiag'
+      },
+      {
+        label: "Salir",
+        key: 'logout'
+      }
+    ]);
+  }
   return (
     <Header>
       <Menu
         mode='horizontal'
         theme='dark'
-        items={!user ? items_not_logged : items_logged} />
+        onClick={menuItemClickedHandler}
+        items={items} />
     </Header>
   );
 };
