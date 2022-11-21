@@ -2,7 +2,7 @@
 
 exports.handler = async (event, context) => {
     const guides = [
-      { title: 'Enteoría aquí va lo de tomodiag', author: 'Yahaira' },
+      { title: 'En teoría aquí va lo de tomodiag', author: 'Yahaira' },
     ]
   
     // solo si hay propiedades del cliente (clientContext) retorno data
