@@ -3,6 +3,7 @@ import { MedicineBoxOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Form, Input, Typography, Select, message, Upload, Button } from "antd";
 import { useState } from "react";
+import BackendConfig from '../../config/backend';
 const { Option } = Select;
 const { Dragger } = Upload;
 const { Title } = Typography;
