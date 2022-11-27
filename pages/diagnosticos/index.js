@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Row, Col, Divider, message } from "antd";
+import { Card, Row, Col, Divider, message, Spin } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import LayoutPage from "../../components/layout/LayoutPage";
 import AuthContext from "../../stores/authContext";
@@ -31,13 +31,15 @@ const Diagnosticos = () => {
         setLista(res.data.list);
       })
       .catch((err) => {
-        message.error("Ocurrieron algunos errores extrayendo los datos");
+        message.error(
+          "Ocurrieron algunos errores extrayendo los datos inténtalo más tarde"
+        );
       });
   }, [user, authReady]);
 
   let listaDiagnosticos = (
     <Col sm={24}>
-      <p>No se encontró ningún diagnóstico asociado</p>
+      <Spin />
     </Col>
   );
 
@@ -52,7 +54,10 @@ const Diagnosticos = () => {
             }}
             cover={<img alt="cover diagnóstico" src={`${diagnostico.cover}`} />}
             actions={[
-              <Link key="diagnostico_link" href={`/diagnosticos/${diagnostico._id}`}>
+              <Link
+                key="diagnostico_link"
+                href={`/diagnosticos/${diagnostico._id}`}
+              >
                 <EditOutlined key="edit" /> Ver
               </Link>,
             ]}
