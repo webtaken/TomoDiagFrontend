@@ -10,10 +10,11 @@ function MyApp({ Component, pageProps }) {
       {/* <!-- Google tag (gtag.js) --> */}
       <Script
         async
+        id="google-analytics-tomodiag"
         strategy="lazyOnload"
         src="https://www.googletagmanager.com/gtag/js?id=G-BEYT663BHX"
       ></Script>
-      <Script strategy="lazyOnload">
+      <Script strategy="lazyOnload" id="google-analytics-tomodiag-body">
         {`
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
